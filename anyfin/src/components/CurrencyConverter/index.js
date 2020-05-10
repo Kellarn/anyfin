@@ -4,8 +4,6 @@ import axios from 'axios';
 import './style.css';
 
 const CurrencyConverter = currencyCode => {
-  const [convertData, setConvertData] = useState({});
-  const [isPristine, setIsPristine] = useState(true);
   const [submit, setSubmit] = useState(false);
   const [currentAmount, setCurrentAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(null);
@@ -21,7 +19,6 @@ const CurrencyConverter = currencyCode => {
           url: `http://data.fixer.io/api/convert?access_key=${process.env.REACT_APP_API_ACCESS_KEY}&from=SEK&to=${currencyCode.currencyCode}&amount=${currentAmount}`,
           mode: 'cors'
         });
-        console.log(data);
         if (data.status === 200) {
           setConvertedAmount(data.data.result);
         }
@@ -53,10 +50,15 @@ const CurrencyConverter = currencyCode => {
         type='number'
         onChange={e => setCurrentAmount(e.target.value)}
       ></input>
-      <button onClick={() => setSubmit(true)}>Convert</button>
+      <button onClick={() => setSubmit(true)}>
+        Convert to {currencyCode.currencyCode}
+      </button>
       {convertedAmount && (
         <div className='result'>
-          <p>{convertedAmount}</p>
+          <p>
+            {currentAmount} SEK to {currencyCode.currencyCode} ={' '}
+            {convertedAmount}
+          </p>
         </div>
       )}
     </div>

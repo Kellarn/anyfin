@@ -13,7 +13,6 @@ const CountrySearch = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.log(searchTerm);
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -22,7 +21,6 @@ const CountrySearch = () => {
           url: `https://restcountries.eu/rest/v2/name/${searchTerm}`,
           mode: 'cors'
         });
-        console.log(data);
         if (data.status === 200) {
           setActiveCountry({});
           setCountries(data.data);

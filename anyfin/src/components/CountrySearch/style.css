@@ -1,8 +1,14 @@
+.CountrySearch {
+  display: flex;
+  flex-direction: column;
+}
+
 .CountrySearch input {
-  margin-top: 30px;
   font-size: 20px;
   width: 300px;
   height: 30px;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 .searchSuggestions {
   width: 300px;
@@ -22,6 +28,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .activeCountry p {
   padding: 0 10px;
@@ -31,7 +38,7 @@
   flex-direction: row;
 }
 
-.activeCountry p:last-child span {
+.activeCountry p span {
   padding-left: 5px;
 }
 .activeCountry img {
