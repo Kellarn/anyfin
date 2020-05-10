@@ -1,0 +1,40 @@
+.CountrySearch input {
+  margin-top: 30px;
+  font-size: 20px;
+  width: 300px;
+  height: 30px;
+}
+.searchSuggestions {
+  width: 300px;
+  margin: 0 auto;
+  max-height: 300px;
+  overflow: scroll;
+  background: rgb(224, 219, 219);
+}
+.searchSuggestions p {
+  margin: 5px 0;
+}
+.searchSuggestions p:hover {
+  cursor: pointer;
+}
+.activeCountry {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.activeCountry p {
+  padding: 0 10px;
+}
+.activeCountry p:last-child {
+  display: flex;
+  flex-direction: row;
+}
+
+.activeCountry p:last-child span {
+  padding-left: 5px;
+}
+.activeCountry img {
+  padding: 0 10px;
+  height: 30px;
+}

@@ -5,6 +5,8 @@ import './style.css';
 
 const CountrySearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [countries, setCountries] = useState([]);
+  const [activeCountry, setActiveCountry] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -13,12 +15,16 @@ const CountrySearch = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        let countries = await axios({
+        let data = await axios({
           method: 'get',
           url: `https://restcountries.eu/rest/v2/name/${searchTerm}`,
           mode: 'cors'
         });
-        console.log(countries);
+        console.log(data);
+        if (data.status === 200) {
+          setActiveCountry({});
+          setCountries(data.data);
+        }
       } catch (error) {
         if (error.response) {
           console.error(error.response.data);
@@ -36,14 +42,50 @@ const CountrySearch = () => {
 
     if (searchTerm !== '') {
       fetchData();
+    } else if (searchTerm === '' && countries.length) {
+      setCountries([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, countries]);
 
   return (
-    <input
-      value={searchTerm}
-      onChange={e => setSearchTerm(e.target.value)}
-    ></input>
+    <div className='CountrySearch'>
+      <input
+        value={searchTerm}
+        placeholder='Please search'
+        onChange={e => setSearchTerm(e.target.value)}
+      />
+      {countries && (
+        <div className='searchSuggestions'>
+          {countries.map((country, key) => (
+            <div className='countrySuggestion' key={key}>
+              <p
+                onClick={() => {
+                  setActiveCountry(country);
+                  setSearchTerm('');
+                  setCountries([]);
+                }}
+              >
+                {country.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+      {activeCountry && activeCountry.name && (
+        <div className='activeCountry'>
+          <img src={activeCountry.flag} alt='Country flag' />
+          <p>Name: {activeCountry.name}</p>
+          <p>Capital: {activeCountry.capital}</p>
+          <p>Population: {activeCountry.population}</p>
+          <p>
+            Currency:
+            {activeCountry.currencies.map((currency, key) => (
+              <span key={key}>{currency.code}</span>
+            ))}
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 
