@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import CurrencyConverter from '../CurrencyConverter';
 
 import './style.css';
 
 const CountrySearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isPristine, setIsPristine] = useState(true);
   const [countries, setCountries] = useState([]);
   const [activeCountry, setActiveCountry] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,17 +44,21 @@ const CountrySearch = () => {
 
     if (searchTerm !== '') {
       fetchData();
-    } else if (searchTerm === '' && countries.length) {
+    } else if (searchTerm === '' && isPristine === false) {
+      setIsPristine(true);
       setCountries([]);
     }
-  }, [searchTerm, countries]);
+  }, [searchTerm, isPristine]);
 
   return (
     <div className='CountrySearch'>
       <input
         value={searchTerm}
         placeholder='Please search'
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={e => {
+          setSearchTerm(e.target.value);
+          setIsPristine(false);
+        }}
       />
       {countries && (
         <div className='searchSuggestions'>
@@ -80,9 +86,12 @@ const CountrySearch = () => {
           <p>
             Currency:
             {activeCountry.currencies.map((currency, key) => (
-              <span key={key}>{currency.code}</span>
+              <span>
+                <span key={key}>{currency.code}</span>
+              </span>
             ))}
           </p>
+          <CurrencyConverter currencyCode={activeCountry.currencies[0].code} />
         </div>
       )}
     </div>
