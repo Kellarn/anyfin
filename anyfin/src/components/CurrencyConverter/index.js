@@ -8,11 +8,9 @@ const CurrencyConverter = currencyCode => {
   const [isPristine, setIsPristine] = useState(true);
   const [submit, setSubmit] = useState(false);
   const [currentAmount, setCurrentAmount] = useState(0);
-  const [activeCountry, setActiveCountry] = useState(null);
+  const [convertedAmount, setConvertedAmount] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  console.log(currencyCode);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,10 +22,9 @@ const CurrencyConverter = currencyCode => {
           mode: 'cors'
         });
         console.log(data);
-        // if (data.status === 200) {
-        //   setActiveCountry({});
-        //   setCountries(data.data);
-        // }
+        if (data.status === 200) {
+          setConvertedAmount(data.data.result);
+        }
         setSubmit(false);
       } catch (error) {
         if (error.response) {
@@ -52,8 +49,16 @@ const CurrencyConverter = currencyCode => {
   return (
     <div className='CurrencyConverter'>
       <p>Please enter an amount in SEK</p>
-      <input onChange={e => setCurrentAmount(e.target.value)}></input>
+      <input
+        type='number'
+        onChange={e => setCurrentAmount(e.target.value)}
+      ></input>
       <button onClick={() => setSubmit(true)}>Convert</button>
+      {convertedAmount && (
+        <div className='result'>
+          <p>{convertedAmount}</p>
+        </div>
+      )}
     </div>
   );
 };

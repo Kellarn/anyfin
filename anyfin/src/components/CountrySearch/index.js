@@ -86,9 +86,7 @@ const CountrySearch = () => {
           <p>
             Currency:
             {activeCountry.currencies.map((currency, key) => (
-              <span>
-                <span key={key}>{currency.code}</span>
-              </span>
+              <span key={key}>{currency.code}</span>
             ))}
           </p>
           <CurrencyConverter currencyCode={activeCountry.currencies[0].code} />
