@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import ClassicView from '../../components/ClassicView';
 import cn from 'classnames';
-import { render } from 'react-dom';
+
+import ClassicView from '../../components/ClassicView';
+import GoogleView from '../../components/GoogleView';
+
+import './style.css';
 
 const SearchContainer = () => {
-  const MODES = {
+  const VIEWS = {
     CLASSIC: 'classic',
     GOGGLE: 'google'
   };
-  const [mode, setMode] = useState(MODES.CLASSIC);
+  const [view, setView] = useState(VIEWS.CLASSIC);
   const [searchTerm, setSearchTerm] = useState('');
   const [isPristine, setIsPristine] = useState(true);
   const [countries, setCountries] = useState([]);
@@ -65,20 +68,39 @@ const SearchContainer = () => {
   return (
     <div
       className={cn('SearchContainer', {
-        'SearchContainer--classic': mode === MODES.CLASSIC,
-        'SearchContainer--google': mode === MODES.GOOGLE
+        'SearchContainer--classic': view === VIEWS.CLASSIC,
+        'SearchContainer--google': view === VIEWS.GOOGLE
       })}
     >
-      {mode === MODES.CLASSIC && (
-        <div>
-          <ClassicView
-            countries={countries}
-            onChange={onChange}
-            onClick={onClick}
-            activeCountry={activeCountry}
-            searchTerm={searchTerm}
-          />
-        </div>
+      <button
+        className={cn('ViewButton', { active: view === VIEWS.CLASSIC })}
+        onClick={() => setView(VIEWS.CLASSIC)}
+      >
+        Classic view
+      </button>
+      <button
+        className={cn('ViewButton', { active: view === VIEWS.GOOGLE })}
+        onClick={() => setView(VIEWS.GOOGLE)}
+      >
+        Google view
+      </button>
+      {view === VIEWS.CLASSIC && (
+        <ClassicView
+          countries={countries}
+          onChange={onChange}
+          onClick={onClick}
+          activeCountry={activeCountry}
+          searchTerm={searchTerm}
+        />
+      )}
+      {view === VIEWS.GOOGLE && (
+        <GoogleView
+          countries={countries}
+          onChange={onChange}
+          onClick={onClick}
+          activeCountry={activeCountry}
+          searchTerm={searchTerm}
+        />
       )}
     </div>
   );

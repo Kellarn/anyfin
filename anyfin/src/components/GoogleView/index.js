@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CurrencyConverter from '../CurrencyConverter';
 import CountrySearch from '../CountrySearch';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoBox } from '@react-google-maps/api';
 
 import './style.css';
 
-const GoogleView = searchTerm => {
+const GoogleView = ({
+  searchTerm,
+  activeCountry,
+  onChange,
+  onClick,
+  countries
+}) => {
   const [position, setPosition] = useState({});
-  const [countries, setCountries] = useState([]);
-  const [activeCountry, setActiveCountry] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.log(activeCountry);
     if (activeCountry && activeCountry.latlng) {
-      console.log(activeCountry.latlng);
       setPosition({
         lat: activeCountry.latlng[0],
         lng: activeCountry.latlng[1]
@@ -24,27 +24,40 @@ const GoogleView = searchTerm => {
     }
   }, [activeCountry]);
 
-  const onChange = searchTerm => {
-    setSearchTerm(searchTerm);
-    setIsPristine(false);
-  };
-  const onClick = country => {
-    setActiveCountry(country);
-    setSearchTerm('');
-  };
+  const options = { closeBoxURL: '', enableEventPropagation: true };
 
   return (
     <div className='GoogleView'>
-      {/* <CountrySearch
+      <CountrySearch
         onChange={onChange}
         searchTerm={searchTerm}
         onClick={onClick}
         countries={countries}
-      /> */}
-      {position.lat && (
+      />
+      {position.lat && activeCountry.name && (
         <LoadScript googleMapsApiKey='AIzaSyACoDXdyl23j0_8fdP5WcJRXmzfR04P0D4'>
           <GoogleMap id='googleMap' center={position} zoom={4}>
             <Marker position={position} />
+            <InfoBox position={position} options={options}>
+              <div className='background'>
+                <div className='info'>
+                  <img
+                    className='countryFlag'
+                    src={activeCountry.flag}
+                    alt='Country flag'
+                  />
+                  <p>Name: {activeCountry.name}</p>
+                  <p>Capital: {activeCountry.capital}</p>
+                  <p>Population: {activeCountry.population}</p>
+                  <p>
+                    Currency: {''}
+                    {activeCountry.currencies.map((currency, key) => (
+                      <span key={key}>{currency.code}</span>
+                    ))}
+                  </p>
+                </div>
+              </div>
+            </InfoBox>
           </GoogleMap>
         </LoadScript>
       )}

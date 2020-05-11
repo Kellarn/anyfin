@@ -1,0 +1,11 @@
+.ViewButton {
+  width: 200px;
+  font-size: 16px;
+  height: 30px;
+  margin: 10px;
+  border-radius: 6px;
+}
+.ViewButton.active {
+  background: green;
+  color: white;
+}

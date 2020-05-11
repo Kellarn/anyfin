@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
-const CountrySearch = ({ onChange, searchTerm, onClick, countries = [] }) => {
+const CountrySearch = ({ onChange, searchTerm, onClick, countries }) => {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  console.log('CountrySearch -> searchSuggestions', searchSuggestions);
 
   useEffect(() => {
     setSearchSuggestions(countries);
