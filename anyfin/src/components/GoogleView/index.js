@@ -35,7 +35,7 @@ const GoogleView = ({
         countries={countries}
       />
       {position.lat && activeCountry.name && (
-        <LoadScript googleMapsApiKey='AIzaSyACoDXdyl23j0_8fdP5WcJRXmzfR04P0D4'>
+        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
           <GoogleMap id='googleMap' center={position} zoom={4}>
             <Marker position={position} />
             <InfoBox position={position} options={options}>
