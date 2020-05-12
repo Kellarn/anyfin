@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import CurrencyConverter from '../CurrencyConverter';
 import CountrySearch from '../CountrySearch';
-import { GoogleMap, LoadScript, Marker, InfoBox } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 import './style.css';
 
@@ -24,8 +23,6 @@ const GoogleView = ({
     }
   }, [activeCountry]);
 
-  const options = { closeBoxURL: '', enableEventPropagation: true };
-
   return (
     <div className='GoogleView'>
       <CountrySearch
@@ -37,27 +34,25 @@ const GoogleView = ({
       {position.lat && activeCountry.name && (
         <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
           <GoogleMap id='googleMap' center={position} zoom={4}>
-            <Marker position={position} />
-            <InfoBox position={position} options={options}>
-              <div className='background'>
-                <div className='info'>
-                  <img
-                    className='countryFlag'
-                    src={activeCountry.flag}
-                    alt='Country flag'
-                  />
-                  <p>Name: {activeCountry.name}</p>
-                  <p>Capital: {activeCountry.capital}</p>
-                  <p>Population: {activeCountry.population}</p>
-                  <p>
-                    Currency: {''}
-                    {activeCountry.currencies.map((currency, key) => (
-                      <span key={key}>{currency.code}</span>
-                    ))}
-                  </p>
-                </div>
+            <Marker position={position}></Marker>
+            <div className='infoBox'>
+              <div className='info'>
+                <img
+                  className='countryFlag'
+                  src={activeCountry.flag}
+                  alt='Country flag'
+                />
+                <p>Name: {activeCountry.name}</p>
+                <p>Capital: {activeCountry.capital}</p>
+                <p>Population: {activeCountry.population}</p>
+                <p>
+                  Currency: {''}
+                  {activeCountry.currencies.map((currency, key) => (
+                    <span key={key}>{currency.code}</span>
+                  ))}
+                </p>
               </div>
-            </InfoBox>
+            </div>
           </GoogleMap>
         </LoadScript>
       )}
