@@ -8,7 +8,7 @@
   width: 300px;
   height: 30px;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .searchSuggestions {
   width: 300px;
@@ -16,6 +16,9 @@
   max-height: 300px;
   overflow: scroll;
   background: rgb(224, 219, 219);
+  -webkit-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.75);
 }
 .searchSuggestions p {
   margin: 5px 0;

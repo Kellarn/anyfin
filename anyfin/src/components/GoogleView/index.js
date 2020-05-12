@@ -10,7 +10,8 @@ const GoogleView = ({
   activeCountry,
   onChange,
   onClick,
-  countries
+  countries,
+  error
 }) => {
   const [position, setPosition] = useState({});
 
@@ -31,6 +32,13 @@ const GoogleView = ({
         onClick={onClick}
         countries={countries}
       />
+      <div className='error'>
+        {error && !countries.length ? (
+          <>Nothing found, please try a different search term!</>
+        ) : error ? (
+          <>Something went wrong, please try again later!</>
+        ) : null}
+      </div>
       {position.lat && activeCountry.name && (
         <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}>
           <GoogleMap id='googleMap' center={position} zoom={4}>

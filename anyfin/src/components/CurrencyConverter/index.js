@@ -8,12 +8,13 @@ const CurrencyConverter = currencyCode => {
   const [currentAmount, setCurrentAmount] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [searchedAmount, setSearchedAmount] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      if (error) {
+        setError(false);
+      }
       try {
         let data = await axios({
           method: 'get',
@@ -29,6 +30,8 @@ const CurrencyConverter = currencyCode => {
         if (data.status === 200) {
           setSearchedAmount(currentAmount);
           setConvertedAmount(data.data.result);
+        } else {
+          setError(true);
         }
         setSubmit(false);
       } catch (error) {
@@ -42,14 +45,13 @@ const CurrencyConverter = currencyCode => {
           console.error('Error', error.message);
         }
         setError(true);
-        setIsLoading(false);
       }
     };
 
     if (submit) {
       fetchData();
     }
-  }, [submit]);
+  }, [submit, currencyCode, currentAmount, error]);
 
   return (
     <div className='CurrencyConverter'>
@@ -61,6 +63,11 @@ const CurrencyConverter = currencyCode => {
       <button onClick={() => setSubmit(true)}>
         Convert to {currencyCode.currencyCode}
       </button>
+      {error && (
+        <div className='error'>
+          Sorry, something went wrong, please try again!
+        </div>
+      )}
       {convertedAmount && (
         <div className='result'>
           <p>

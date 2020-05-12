@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import cn from 'classnames';
 
@@ -17,12 +17,11 @@ const SearchContainer = () => {
   const [isPristine, setIsPristine] = useState(true);
   const [countries, setCountries] = useState([]);
   const [activeCountry, setActiveCountry] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      setError(false);
       try {
         let data = await axios({
           method: 'get',
@@ -32,6 +31,9 @@ const SearchContainer = () => {
         if (data.status === 200) {
           setActiveCountry({});
           setCountries(data.data);
+        } else {
+          setError(true);
+          setCountries([]);
         }
       } catch (error) {
         if (error.response) {
@@ -44,7 +46,7 @@ const SearchContainer = () => {
           console.error('Error', error.message);
         }
         setError(true);
-        setIsLoading(false);
+        setCountries([]);
       }
     };
 
@@ -84,6 +86,7 @@ const SearchContainer = () => {
       >
         Google view
       </button>
+
       {view === VIEWS.CLASSIC && (
         <ClassicView
           countries={countries}
@@ -91,6 +94,7 @@ const SearchContainer = () => {
           onClick={onClick}
           activeCountry={activeCountry}
           searchTerm={searchTerm}
+          error={error}
         />
       )}
       {view === VIEWS.GOOGLE && (
@@ -100,6 +104,7 @@ const SearchContainer = () => {
           onClick={onClick}
           activeCountry={activeCountry}
           searchTerm={searchTerm}
+          error={error}
         />
       )}
     </div>
