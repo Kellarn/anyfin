@@ -1,3 +1,8 @@
+## Usage
+
+To run, please remove the .example from .env file and replace placeholders with provided keys.
+Run yarn install and yarn start and go to http://localhost:3000
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
