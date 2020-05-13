@@ -1,3 +1,10 @@
+## Changes & updates for the future
+
+If I had more time working on this assignment, the first thing I would have done is create a better looking application
+i.e. a better looking UI. I would have used your website to make the application look and behave more alike that
+to create a unity and a read thread through you application and mine.
+Secondly I would have created a util for fetching data that could be used for both the searchContainer and currencyConverter to keep the application as DRY as possible. There are more places where the DRY principle could be used like the error handeling for both views.
+
 ## Usage
 
 To run, please remove the .example from .env file and replace placeholders with provided keys.
